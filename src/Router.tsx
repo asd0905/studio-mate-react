@@ -1,13 +1,15 @@
 import { Route } from "react-router";
 import { Routes } from "react-router-dom";
-import Detail from "./routes/Detail";
-import Home from "./routes/Home";
+import Detail from "./pages/Detail/Detail";
+import Home from "./pages/Home";
+import List from "./pages/List/List";
 
-export default function Router() {
+const Router = () => {
     return (
         <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/:id' element={<Detail />} />
+            <Route path='/' element={<List />} />
+            <Route path='/:pokemonId' element={<Detail />} />
         </Routes>
     )
 }
+export default Router;
