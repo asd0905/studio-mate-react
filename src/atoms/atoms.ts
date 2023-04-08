@@ -25,3 +25,8 @@ export const isListLoadedAtom = atom({
     key: 'isListLoaded',
     default: false,
 })
+
+export const isEmptyAtom = atom({
+    key: 'isEmpty',
+    default: false,
+})

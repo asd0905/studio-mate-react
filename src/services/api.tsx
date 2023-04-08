@@ -10,8 +10,9 @@ export const getPokemons = async ({ pageParam = 0 }): Promise<any> => {
 
 export const searchPokemon = async (searchId: string) => {
     const response = await fetch(POKEMON_DETAIL_API.replace(':pokemonId', searchId));
-    const jsonResponse = await response.json();
-    return jsonResponse;
+    // const jsonResponse = await response.json();
+    // return jsonResponse;
+    return response.json();
 }
 
 export const getPokemon = (pokemonId: string) => {

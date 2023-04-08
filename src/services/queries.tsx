@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useQuery } from "react-query";
 import { getPokemons, searchPokemon } from "./api";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { pokemonsAtom, searchIdAtom, searchPokemonsAtom } from "../atoms/atoms";
+import { isEmptyAtom, pokemonsAtom, searchIdAtom, searchPokemonsAtom } from "../atoms/atoms";
 import { ILastpageProps, IPokemonProps } from '../interfaces/interface';
 
 export const UseInfiniteQuery = () => {
@@ -29,28 +29,26 @@ export const UseInfiniteQuery = () => {
 export const UseSearchQuery = () => {
     const searchId = useRecoilValue(searchIdAtom);
     const setSearchPokemon = useSetRecoilState(searchPokemonsAtom);
+    const seIsEmpty = useSetRecoilState(isEmptyAtom)
     return useQuery(
         [`pokemon_${searchId}`],
-        async () => {
-            try {
-                const data = await searchPokemon(searchId);
+        () => searchPokemon(searchId),
+        {
+            refetchOnWindowFocus: false,
+            enabled: Boolean(searchId),
+            onError: () => {
+                console.log('에러 발생');
+                setSearchPokemon([]);
+                seIsEmpty(true);
+            },
+            onSuccess: (data) => {
                 setSearchPokemon([
                     {
                         ...data.species,
                         id: data.species.url.split('/')[6]
                     }
                 ]);
-                return data;
-            } catch (error) {
-                console.log('에러 발생');
             }
-        },
-        {
-            refetchOnWindowFocus: false,
-            enabled: Boolean(searchId),
-            onError: () => {
-                console.log('에러 발생');
-            },
         }
     )
 }
