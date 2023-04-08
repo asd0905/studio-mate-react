@@ -1,8 +1,9 @@
 export const POKEMON_API = 'https://pokeapi.co/api/v2';
 export const POKEMON_LIST_API = `${POKEMON_API}/pokemon`;
 export const POKEMON_DETAIL_API = `${POKEMON_API}/pokemon/:pokemonId`;
+export const POKEMON_SPECIES_API = `${POKEMON_API}/pokemon-species/:pokemonId`;
 export const POKEMON_EVOLUTION_CHAIN_API = `${POKEMON_API}/evolution-chain/:pokemonId`;
-export const POKEMON_IMG_URL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon';
+export const POKEMON_IMG_URL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/';
 
 export const Name: Record<number, string> = {
     1: '이상해씨',

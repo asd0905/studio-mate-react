@@ -7,21 +7,31 @@ import { getEvolutionChains, getPokemon } from "../../services/api";
 const Detail = () => {
     const { pokemonId } = useParams();
     const [pokemon, setPokemon] = useRecoilState<any>(pokemonAtom);
-    const location = useLocation();
-    const pokemonName = location.state.pokemonName;
     const { isLoading: isPokemonLoading, data: pokemonData } = useQuery(
-        [pokemonName, pokemonId], () => getPokemon(pokemonId || ''), {
-        onSuccess: (pokemonData) => {
-            console.log(pokemonData);
-            setPokemon(pokemonData);
+        [pokemonId],
+        () => getPokemon(pokemonId || ''),
+        {
+            refetchOnWindowFocus: false,
+            onSuccess: (pokemonData) => {
+                // const koName = pokemonData.data.names.find((name: any) => name.language.name === "ko");
+                // console.log(koName);
+                console.log(pokemonData);
+                setPokemon(pokemonData);
+            },
         }
-    });
+    );
+
     const { isLoading: isEvolChainsLoading, data: EvolChainsData } = useQuery(
-        [`${pokemonName}EvolutionChains`, pokemonId], () => getEvolutionChains(pokemonId || ''), {
-        onSuccess: EvolChainsData => {
-            console.log(EvolChainsData);
+        [`${pokemonId}EvolutionChains`, pokemonId],
+        () => getEvolutionChains(pokemonId || ''),
+        {
+            onSuccess: EvolChainsData => {
+                console.log(EvolChainsData);
+            },
+            refetchOnWindowFocus: false,
         }
-    })
+    )
+
     return (
         <>
             {

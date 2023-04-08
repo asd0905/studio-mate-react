@@ -1,7 +1,11 @@
-export interface IpokemonProps {
+export interface IPokemonProps {
     name: string;
     url: string;
     id: string;
+}
+
+export interface ISearchProps {
+    pokemonId: string;
 }
 
 export interface ILastpageResultsProps {

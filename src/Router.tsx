@@ -7,8 +7,9 @@ import List from "./pages/List/List";
 const Router = () => {
     return (
         <Routes>
-            <Route path='/' element={<List />} />
-            <Route path='/:pokemonId' element={<Detail />} />
+            <Route path='/' element={<List />}>
+                <Route path='/:pokemonId' element={<Detail />} />
+            </Route>
         </Routes>
     )
 }

@@ -1,9 +1,19 @@
 import { atom } from "recoil";
-import { IpokemonProps } from "../interfaces/interface";
+import { IPokemonProps } from "../interfaces/interface";
 
-export const pokemonsAtom = atom<IpokemonProps[]>({
+export const pokemonsAtom = atom<IPokemonProps[]>({
     key: 'pokemons',
     default: [],
+})
+
+export const searchPokemonsAtom = atom<IPokemonProps[]>({
+    key: 'searchPokemon',
+    default: [],
+})
+
+export const searchIdAtom = atom({
+    key: 'searchId',
+    default: ''
 })
 
 export const pokemonAtom = atom({
