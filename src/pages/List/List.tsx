@@ -2,37 +2,12 @@ import { useCallback, useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { isEmptyAtom, pokemonsAtom, searchIdAtom, searchPokemonsAtom } from "../../atoms/atoms";
-import { SLayout, SLoading } from "./List.style";
+import { SError, SForm, SLayout, SLoading } from "./List.style";
 import { throttle } from 'lodash';
 import { UseInfiniteQuery, UseSearchQuery } from "../../services/queries";
 import { IPokemonProps, ISearchProps } from "../../interfaces/interface";
 import { useForm } from "react-hook-form";
 import Thumbnail from "../../components/Thumbnail/Thumbnail";
-import styled from "styled-components";
-
-const SForm = styled.form`
-        padding: 10px;
-        display: flex;
-        input {
-            width: 100%;
-            padding: 0 20px;
-        }
-        button {
-            background-color: #ffffff;
-            width: 50px;
-            height: 50px;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            flext: 0 0 auto;
-            border-left: 0;
-            svg {
-                padding: 0;
-                width: 20px;
-                
-            }
-        }
-    `
 
 const List = () => {
     const [pokemons, setPokemons] = useRecoilState<IPokemonProps[]>(pokemonsAtom);
@@ -123,6 +98,7 @@ const List = () => {
                         </svg>
                     </button>
                 </ SForm>
+                <SError>{errors.pokemonId?.message}</SError>
                 <SLayout>
                     {
                         isEmpty ? (
