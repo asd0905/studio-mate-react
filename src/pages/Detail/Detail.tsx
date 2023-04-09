@@ -42,11 +42,6 @@ const Detail = () => {
                         <SDetail>
                             <h1>{pokemon.name}</h1>
                             <img src={`${POKEMON_IMG_URL}/${pokemon.id}.png`} alt={pokemon.name} />
-                            {/* <STypes>{
-                                pokemon.types.map((type: ITypesProps) => (
-                                    <span key={type.type.name}>{type.type.name}</span>
-                                ))
-                            }</STypes> */}
                             <h3>진화단계</h3>
                             <SEvolvChain>
                                 {pokemonEvolvChain?.evolvChain && pokemonEvolvChain?.evolvChain.length > 0 ? (

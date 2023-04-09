@@ -20,7 +20,10 @@ const List = () => {
     const { isLoading: isSearchLoading } = UseSearchQuery();
     return (
         <>
-            <Meta name={pokemons[0]?.name} id={pokemons[0]?.id || ''} image={`${POKEMON_IMG_URL}/${pokemons[0]?.id}.png`} />
+            <Meta
+                name={pokemons[0]?.name} id={pokemons[0]?.id || ''}
+                image={`${POKEMON_IMG_URL}/${pokemons[0]?.id}.png`}
+            />
             {(isFetching || isSearchLoading) && <CLoading />}
             {location.pathname !== '/' ? <Outlet /> : null}
 
