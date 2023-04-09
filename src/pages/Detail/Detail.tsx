@@ -1,14 +1,12 @@
-import { useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { pokemonAtom, pokemonEvolvChainAtom } from "../../atoms/atoms";
-import { getEvolutionChains, getPokemon } from "../../services/api";
 import Meta from "../../components/Meta/Meta";
 import { POKEMON_IMG_URL } from "../../constants";
 import { UseEvolutionChaninQuery, UsePokemonQuery } from "../../services/queries";
 import CLoading from "../../components/Loading/Loading";
-import { SDetail, STypes } from "./Detail.style";
-import { IPokemonProps, ITypesProps } from "../../interfaces/interface";
+import { SDetail } from "./Detail.style";
+import { IPokemonProps } from "../../interfaces/interface";
 import CThumbnail from "../../components/Thumbnail/Thumbnail";
 import styled from "styled-components";
 
