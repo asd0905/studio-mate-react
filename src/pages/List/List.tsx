@@ -2,12 +2,14 @@ import { useCallback, useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { isEmptyAtom, pokemonsAtom, searchIdAtom, searchPokemonsAtom } from "../../atoms/atoms";
-import { SError, SForm, SLayout, SLoading } from "./List.style";
+import { SError, SForm } from "./List.style";
 import { throttle } from 'lodash';
 import { UseInfiniteQuery, UseSearchQuery } from "../../services/queries";
 import { IPokemonProps, ISearchProps } from "../../interfaces/interface";
 import { useForm } from "react-hook-form";
-import Thumbnail from "../../components/Thumbnail/Thumbnail";
+import CLoading from "../../components/Loading/Loading";
+import CThumbnail from "../../components/Thumbnail/Thumbnail";
+import CList from "../../components/List/List";
 
 const List = () => {
     const [pokemons, setPokemons] = useRecoilState<IPokemonProps[]>(pokemonsAtom);
@@ -70,11 +72,7 @@ const List = () => {
     return (
         <>
             {(isFetching || isSearchLoading) &&
-                <SLoading>
-                    <svg color="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                        <path d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z" />
-                    </svg>
-                </SLoading>
+                <CLoading />
             }
             {location.pathname !== '/' ? <Outlet /> : null}
 
@@ -99,27 +97,7 @@ const List = () => {
                     </button>
                 </ SForm>
                 <SError>{errors.pokemonId?.message}</SError>
-                <SLayout>
-                    {
-                        isEmpty ? (
-                            <div>데이터가 없습니다.</div>
-                        ) : searchPokemon.length > 0 ? (
-                            searchPokemon.map((pokemon: IPokemonProps) => (
-                                <Thumbnail
-                                    key={pokemon.id}
-                                    pokemon={pokemon}
-                                    handleNavigation={handleNavigation} />
-                            ))
-                        ) : (
-                            pokemons.map((pokemon: IPokemonProps) => (
-                                <Thumbnail
-                                    key={pokemon.id}
-                                    pokemon={pokemon}
-                                    handleNavigation={handleNavigation} />
-                            ))
-                        )
-                    }
-                </SLayout>
+                <CList handleNavigation={handleNavigation} />
             </div>
         </>
     )

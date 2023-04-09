@@ -2,7 +2,7 @@ import { POKEMON_IMG_URL } from "../../constants";
 import { IPokemonProps } from "../../interfaces/interface";
 import { SThumnail } from "./Thumbnail.style";
 
-const Thumbnail = ({ pokemon, handleNavigation }: { pokemon: IPokemonProps, handleNavigation: (id: string) => void }) => {
+const CThumbnail = ({ pokemon, handleNavigation }: { pokemon: IPokemonProps, handleNavigation: (id: string) => void }) => {
     return (
         <SThumnail>
             <div onClick={() => handleNavigation(pokemon.id)}>
@@ -14,4 +14,4 @@ const Thumbnail = ({ pokemon, handleNavigation }: { pokemon: IPokemonProps, hand
     )
 }
 
-export default Thumbnail;
+export default CThumbnail;
