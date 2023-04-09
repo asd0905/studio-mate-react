@@ -16,7 +16,7 @@ export const searchIdAtom = atom({
     default: ''
 })
 
-export const pokemonAtom = atom({
+export const pokemonAtom = atom<any>({
     key: 'pokemon',
     default: {},
 })
@@ -29,4 +29,9 @@ export const isListLoadedAtom = atom({
 export const isEmptyAtom = atom({
     key: 'isEmpty',
     default: false,
+})
+
+export const pokemonEvolvChainAtom = atom({
+    key: 'evolvChain',
+    default: [],
 })

@@ -1,4 +1,4 @@
-import { POKEMON_DETAIL_API, POKEMON_EVOLUTION_CHAIN_API, POKEMON_LIST_API } from "../constants";
+import { POKEMON_DETAIL_API, POKEMON_EVOLUTION_CHAIN_API, POKEMON_LIST_API, POKEMON_SPECIES_API } from "../constants";
 
 export const getPokemons = async ({ pageParam = 0 }): Promise<any> => {
     const queryString = new URLSearchParams({ limit: '20', offset: pageParam.toString() }).toString();
@@ -20,5 +20,10 @@ export const getPokemon = (pokemonId: string) => {
 
 export const getEvolutionChains = (pokemonId: string) => {
     return fetch(POKEMON_EVOLUTION_CHAIN_API.replace(':pokemonId', pokemonId))
+        .then(data => data.json());
+}
+
+export const getPokemonSpecies = (pokemonId: string) => {
+    return fetch(POKEMON_SPECIES_API.replace(':pokemonId', pokemonId))
         .then(data => data.json());
 }

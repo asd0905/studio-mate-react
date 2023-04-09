@@ -1,58 +1,62 @@
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { pokemonAtom } from "../../atoms/atoms";
+import { useNavigate, useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { pokemonAtom, pokemonEvolvChainAtom } from "../../atoms/atoms";
 import { getEvolutionChains, getPokemon } from "../../services/api";
-import { Helmet } from "react-helmet-async";
+import Meta from "../../components/Meta/Meta";
+import { POKEMON_IMG_URL } from "../../constants";
+import { UseEvolutionChaninQuery, UsePokemonQuery } from "../../services/queries";
+import CLoading from "../../components/Loading/Loading";
+import { SDetail, STypes } from "./Detail.style";
+import { IPokemonProps, ITypesProps } from "../../interfaces/interface";
+import CThumbnail from "../../components/Thumbnail/Thumbnail";
+import styled from "styled-components";
+
+const SEvolvChain = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 20px;
+`;
 
 const Detail = () => {
     const { pokemonId } = useParams();
-    const [pokemon, setPokemon] = useRecoilState<any>(pokemonAtom);
-    const { isLoading: isPokemonLoading, data: pokemonData } = useQuery(
-        [pokemonId],
-        () => getPokemon(pokemonId || ''),
-        {
-            refetchOnWindowFocus: false,
-            onSuccess: (pokemonData) => {
-                // const koName = pokemonData.data.names.find((name: any) => name.language.name === "ko");
-                // console.log(koName);
-                console.log(pokemonData);
-                setPokemon(pokemonData);
-            },
-        }
-    );
+    const pokemon = useRecoilValue<any>(pokemonAtom);
+    const pokemonEvolvChain = useRecoilValue<any>(pokemonEvolvChainAtom)
+    const { isLoading: isPokemonLoading, data: pokemonData } = UsePokemonQuery(pokemonId || '');
+    const navigate = useNavigate();
 
-    const { isLoading: isEvolChainsLoading, data: EvolChainsData } = useQuery(
-        [`${pokemonId}EvolutionChains`, pokemonId],
-        () => getEvolutionChains(pokemonId || ''),
-        {
-            onSuccess: EvolChainsData => {
-                console.log(EvolChainsData);
-            },
-            refetchOnWindowFocus: false,
-        }
-    )
-
+    const { isLoading: isEvolChainsLoading, data: EvolChainsData } = UseEvolutionChaninQuery(pokemonId || '');
+    const handleNavigation = (id: string) => {
+        navigate(`/${id}`);
+    }
     return (
         <>
             {
-                isPokemonLoading ? <div>Loading...</div> : (
-                    <div>
-                        <Helmet>
-                            <title>{pokemon.name}</title>
-                            <meta name="description" content={pokemon.name} />
-                            <meta property="og:type" content="website" />
-                            <link href={pokemon.sprites.front_default} />
-                            <meta property="og:url" content={`${process.env.PUBLIC_URL}/${pokemon.id}`} />
-                            <meta name="og:title" content={pokemon.name} />
-                            <meta name="og:description" content={pokemon.name} />
-                            <meta property="og:image" content={pokemon.sprites.front_default} />
-                            <meta property="og:image:width" content={pokemon.sprites.front_default} />
-                            <meta property="og:image:height" content={pokemon.sprites.front_default} />
-                        </Helmet>
-                        <h2>{pokemon.name}</h2>
-                        <img src={pokemon.sprites.front_default} alt={pokemon.name} />
-                    </div>
+                isPokemonLoading ? <CLoading /> : (
+                    <>
+                        <Meta
+                            name={pokemon.name}
+                            id={pokemon.id}
+                            image={`${POKEMON_IMG_URL}/${pokemon.id}.png`}
+                        />
+                        <SDetail>
+                            <h1>{pokemon.name}</h1>
+                            <img src={`${POKEMON_IMG_URL}/${pokemon.id}.png`} alt={pokemon.name} />
+                            {/* <STypes>{
+                                pokemon.types.map((type: ITypesProps) => (
+                                    <span key={type.type.name}>{type.type.name}</span>
+                                ))
+                            }</STypes> */}
+                            <h3>진화단계</h3>
+                            <SEvolvChain>
+                                {pokemonEvolvChain?.evolvChain && pokemonEvolvChain?.evolvChain.length > 0 ? (
+                                    pokemonEvolvChain?.evolvChain.map((d: IPokemonProps) => (
+                                        <CThumbnail key={d.id} pokemon={d} handleNavigation={handleNavigation} />
+                                    ))) : null
+                                }
+                            </SEvolvChain>
+                        </SDetail>
+                    </>
                 )
             }
         </>
