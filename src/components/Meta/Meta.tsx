@@ -11,8 +11,6 @@ const Meta = ({ name, id, image }: IMetaProps) => {
             <meta name="og:title" content={name} />
             <meta name="og:description" content={name} />
             <meta property="og:image" content={image} />
-            <meta property="og:image:width" content={image} />
-            <meta property="og:image:height" content={image} />
         </Helmet>
     )
 }
