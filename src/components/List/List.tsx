@@ -8,9 +8,10 @@ import { SLayout } from "./List.style";
 import { useCallback, useEffect } from "react";
 import { throttle } from "lodash";
 import { UseInfiniteQuery } from "../../services/queries";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const CList = (props: any) => {
+const CList = () => {
+    const navigate = useNavigate();
     const searchPokemon = useRecoilValue(searchPokemonsAtom);
     const isEmpty = useRecoilValue(isEmptyAtom);
     const pokemons = useRecoilValue(pokemonsAtom);
@@ -39,6 +40,10 @@ const CList = (props: any) => {
         [hasNextPage, isFetchingNextPage, fetchNextPage, location]
     );
 
+    const handleNavigation = (id: string) => {
+        navigate(`/${id}`);
+    }
+
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => {
@@ -55,14 +60,14 @@ const CList = (props: any) => {
                         <CThumbnail
                             key={pokemon.id}
                             pokemon={pokemon}
-                            handleNavigation={props.handleNavigation} />
+                            handleNavigation={handleNavigation} />
                     ))
                 ) : (
                     pokemons.map((pokemon: IPokemonProps) => (
                         <CThumbnail
                             key={pokemon.id}
                             pokemon={pokemon}
-                            handleNavigation={props.handleNavigation} />
+                            handleNavigation={handleNavigation} />
                     ))
                 )
             }

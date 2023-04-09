@@ -1,8 +1,7 @@
 import { POKEMON_IMG_URL } from "../../constants";
-import { IPokemonProps } from "../../interfaces/interface";
 import { SThumnail } from "./Thumbnail.style";
 
-const CThumbnail = ({ pokemon, handleNavigation }: { pokemon: IPokemonProps, handleNavigation: (id: string) => void }) => {
+const CThumbnail = ({ pokemon, handleNavigation }: any) => {
     return (
         <SThumnail>
             <div onClick={() => handleNavigation(pokemon.id)}>
